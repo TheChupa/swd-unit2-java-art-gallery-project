@@ -8,7 +8,7 @@ import {
 	Loading,
 } from './components/public/exports';
 import { Artist, Artwork, ArtworkDetails, Style } from './classes/exports';
-import { isEmpty } from './common/utils';
+import { isEmpty } from './shared/utils';
 import './App.css';
 
 function App() {

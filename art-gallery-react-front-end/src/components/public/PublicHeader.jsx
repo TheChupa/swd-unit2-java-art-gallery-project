@@ -1,4 +1,7 @@
 const Header = () => {
+
+    // TODO: use Navlinks and active link here with routing
+    
 	return (
 		<>
 			<header>

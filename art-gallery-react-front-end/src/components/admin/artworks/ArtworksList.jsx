@@ -1,0 +1,53 @@
+const ArtworksList = () => {
+	return (
+		<main>
+			<h2>
+				ARTWORKS
+				<th:block th:if="${artist}">
+					{' '}
+					BY <span th:text="${artist}"></span>
+				</th:block>
+				<th:block th:if="${styleName}">
+					{' '}
+					- <span th:text="${styleName}"></span>
+				</th:block>
+			</h2>
+			<p th:unless="${artworks} and ${artworks.size()}">
+				<em>No artworks to display.</em>
+			</p>
+			<th:block th:if="${artworks} and ${artworks.size()}">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>Title</th>
+							<th>Artist</th>
+							<th>Year Created</th>
+							<th>Image</th>
+						</tr>
+					</thead>
+					<tr th:each="artwork : ${artworks}">
+						<td th:text="${artwork.id}"></td>
+						<td>
+							<a
+								th:href="${'/artworks/details/' + artwork.id}"
+								th:text="${artwork.title}"></a>
+						</td>
+						<td th:text="${artwork.artist}"></td>
+						<td th:text="${artwork.details.yearCreated}"></td>
+						<td>
+							<a th:href="${'/artworks/details/' + artwork.id}" target="_blank">
+								<img
+									th:src="${'https://drive.google.com/thumbnail?id=' + artwork.details.imageId}"
+									width="50px"
+								/>
+							</a>
+						</td>
+					</tr>
+				</table>
+			</th:block>
+		</main>
+	);
+};
+
+export default ArtworksList;
