@@ -1,6 +1,5 @@
 package org.launchcode.art_gallery_spring_java_back_end.controllers;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -10,8 +9,11 @@ import java.util.Map;
 @RequestMapping("/artworks")
 public class ArtworkController {
 
+    // TODO: Create Artwork model to handle nextId, id, title, and artist for each artwork
+    //  and remove nextId from here
     private static int nextId = 6;
 
+    // TODO: Refactor to use instances of the Artwork class
     private static final Map<Integer, String> artworks = new HashMap<>() {{
         put(1, "Girl with a Pearl Earring");
         put(2, "Mona Lisa");
@@ -39,6 +41,7 @@ public class ArtworkController {
                 "</html>";
     }
 
+    // TODO: Refactor to accommodate title and artist inputs
     // Corresponds to http://localhost:8080/artworks/add
     @GetMapping("/add")
     public String renderAddArtworkForm() {
@@ -53,10 +56,11 @@ public class ArtworkController {
                 "</html>";
     }
 
+    // TODO: Update to accept title and artist query parameters
     // Use a query parameter for dynamic results
     // Corresponds to http://localhost:8080/artworks/add?artwork=The+Starry+Night (for example)
     @PostMapping("/add")
-    public String processAddArtworkForm(@RequestParam String artwork) {
+    public String processAddArtworkForm(@RequestParam(value="artwork") String artwork) {
         artworks.put(nextId, artwork);
         nextId++;
         return "<html>" +
@@ -68,10 +72,11 @@ public class ArtworkController {
                 "</html>";
     }
 
+    // TODO: Update to display title and artist using properties of artist object
     // Use a path parameter for dynamic results
     // Corresponds to http://localhost:8080/artworks/details/3 (for example)
     @GetMapping("/details/{artworkId}")
-    public String displayArtworkDetails(@PathVariable int artworkId) {
+    public String displayArtworkDetails(@PathVariable(value="artworkId") int artworkId) {
         return "<html>" +
                 "<body>" +
                 "<h3>Artwork</h3>" +
