@@ -1,6 +1,5 @@
 package org.launchcode.art_gallery_spring_java_back_end.controllers;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -53,10 +52,10 @@ public class ArtworkController {
                 "</html>";
     }
 
-    // Use a query parameter for dynamic results
-    // Corresponds to http://localhost:8080/artworks/add?artwork=The+Starry+Night (for example)
+    //  Use a query parameter for dynamic results
+    //  Corresponds to http://localhost:8080/artworks/results?artwork=The+Starry+Night (for example)
     @PostMapping("/add")
-    public String processAddArtworkForm(@RequestParam String artwork) {
+    public String processAddArtworkForm(@RequestParam(value="artwork") String artwork) {
         artworks.put(nextId, artwork);
         nextId++;
         return "<html>" +
@@ -68,10 +67,10 @@ public class ArtworkController {
                 "</html>";
     }
 
-    // Use a path parameter for dynamic results
-    // Corresponds to http://localhost:8080/artworks/details/3 (for example)
+    //  Use a path parameter for dynamic results
+    //  Corresponds to http://localhost:8080/artworks/details/3 (for example)
     @GetMapping("/details/{artworkId}")
-    public String displayArtworkDetails(@PathVariable int artworkId) {
+    public String displayArtworkDetails(@PathVariable(value="artworkId") int artworkId) {
         return "<html>" +
                 "<body>" +
                 "<h3>Artwork</h3>" +
@@ -80,5 +79,4 @@ public class ArtworkController {
                 "</body>" +
                 "</html>";
     }
-
 }
