@@ -54,7 +54,7 @@ public class ArtworkController {
     // Use a query parameter for dynamic results
     // Corresponds to http://localhost:8080/artworks/add?title=The+Starry+Night&artist=Vincent+van+Gogh (for example)
     @PostMapping("/add")
-    public String processAddArtworkForm(@RequestParam String title, String artist) {
+    public String processAddArtworkForm(@RequestParam(value="title") String title, @RequestParam(value="artist") String artist) {
         Artwork newArtwork = new Artwork(title, artist);
         artworks.put(newArtwork.getId(), newArtwork);
         return "<html>" +
@@ -69,7 +69,7 @@ public class ArtworkController {
     // Use a path parameter for dynamic results
     // Corresponds to http://localhost:8080/artworks/details/3 (for example)
     @GetMapping("/details/{artworkId}")
-    public String displayArtworkDetails(@PathVariable int artworkId) {
+    public String displayArtworkDetails(@PathVariable(value="artworkId") int artworkId) {
         return "<html>" +
                 "<body>" +
                 "<h3>Artwork</h3>" +
