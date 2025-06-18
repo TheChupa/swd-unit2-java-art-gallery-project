@@ -33,7 +33,7 @@ public class ArtworkController {
                 artworksList +
                 """
                 </ul>
-                <p>Click <a href='/artworks/add'>here</a> to add another artwork.</p>
+                <p><a href='/artworks/add'>Add</a> another artwork or <a href='/artworks/delete'>delete</a> one or more artworks.</p>
                 </body>
                 </html>
                 """;
@@ -69,11 +69,64 @@ public class ArtworkController {
                 """ +
                 "<p>You have successfully added " + title + " to the collection.</p>" +
                 """
-                <p><a href='/artworks/add'>Add another artwork</a> or <a href='/artworks'>view the updated list</a> of artworks.</p>
+                <p><a href='/artworks/add'>Add</a> another artwork or view the <a href='/artworks'>updated list</a> of artworks.</p>
                 </body>
                 </html>
                 """;
     }
+
+    // Corresponds to http://localhost:8080/artworks/delete
+    @GetMapping("/delete")
+    public String renderDeleteArtworkForm() {
+        List<Artwork> allArtworks = artworkRepository.findAll();
+        StringBuilder artworksList = new StringBuilder();
+        for (Artwork artwork : allArtworks) {
+            int currId = artwork.getId();
+            artworksList.append("<li><input id='").append(currId).append("' name='artworkIds' type='checkbox' value='").append(currId).append("' />").append(artwork).append("</li>");
+        }
+        return """
+                <html>
+                <body>
+                <form action='/artworks/delete' method='POST'>
+                <p>Select which artworks you wish to delete:</p>
+                <ul>
+                """ +
+                artworksList +
+                """
+                </ul>
+                <button type='submit'>Submit</button>
+                </form>
+                </body>
+                </html>
+                """;
+    }
+
+    // Corresponds to http://localhost:8080/artworks/delete?artworkIds=1+3+5
+    @PostMapping("/delete")
+    public String ProcessDeleteArtworkForm(@RequestParam(value="artworkIds") int[] artworkIds) {
+        for (int id : artworkIds) {
+            Artwork currArtwork = artworkRepository.findById(id).orElse(null);
+            if (currArtwork != null) {
+                artworkRepository.deleteById(id);
+
+            }
+        }
+        String header = artworkIds.length > 1 ? "ARTWORKS" : "ARTWORK";
+        return """
+                <html>
+                <body>
+                <h3>
+                """ +
+                header +
+                """
+                DELETED</h3>
+                <p>Deletion successful.</p>
+                <p>View the <a href='/artworks'>updated list</a> of artworks.</p>
+                </body>
+                </html>
+                """;
+    }
+
 
     // Use a path parameter for dynamic results
     // Corresponds to http://localhost:8080/artworks/details/3 (for example)
