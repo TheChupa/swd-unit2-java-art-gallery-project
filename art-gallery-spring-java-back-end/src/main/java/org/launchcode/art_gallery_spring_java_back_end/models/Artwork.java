@@ -2,6 +2,8 @@ package org.launchcode.art_gallery_spring_java_back_end.models;
 
 import java.util.Objects;
 
+// TODO: Add annotations at class level and field level
+
 public class Artwork {
 
     private static int nextId = 1;
