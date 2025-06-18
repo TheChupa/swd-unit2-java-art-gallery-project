@@ -9,8 +9,10 @@ public class GalleryController {
     // Corresponds to http://localhost:8080
     @GetMapping("/")
     public String renderHomePage() {
-        return "<h2>Midtown Art Gallery</h2>" +
-                "<p>Welcome! View our <a href='/artworks'>collection</a> of fine art.</p>";
+        return """
+                <h2>Midtown Art Gallery</h2>
+                <p>Welcome! View our <a href='/artworks'>collection</a> of fine art.</p>
+                """;
     }
 
 }
