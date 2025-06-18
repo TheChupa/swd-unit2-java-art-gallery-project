@@ -27,29 +27,35 @@ public class ArtworkController {
             String artwork = artworks.get(artworkId);
             artworksList.append("<li><a href='/artworks/details/").append(artworkId).append("'>").append(artwork).append("</a></li>");
         }
-        return "<html>" +
-                "<body>" +
-                "<h2>ARTWORKS</h2>" +
-                "<ul>" +
+        return """
+                <html>
+                <body>
+                <h2>ARTWORKS</h2>
+                <ul>
+                """ +
                 artworksList +
-                "</ul>" +
-                "<p>Click <a href='/artworks/add'>here</a> to add another artwork.</p>" +
-                "</body>" +
-                "</html>";
+                """
+                </ul>
+                <p><a href='/artworks/add'>Add</a> another artwork.</p>
+                </body>
+                </html>
+                """;
     }
 
     // Corresponds to http://localhost:8080/artworks/add
     @GetMapping("/add")
     public String renderAddArtworkForm() {
-        return "<html>" +
-                "<body>" +
-                "<form action='/artworks/add' method='POST'>" +
-                "<p>Enter the name of a new work of art:</p>" +
-                "<input type='text' name='artwork' />" +
-                "<button type='submit'>Submit</button>" +
-                "</form>" +
-                "</body>" +
-                "</html>";
+        return """
+                <html>
+                <body>
+                <form action='/artworks/add' method='POST'>
+                <p>Enter the title and artist for a new work of art:</p>
+                <input type='text' name='artwork' placeholder='Artwork' />
+                <button type='submit'>Submit</button>
+                </form>
+                </body>
+                </html>
+                """;
     }
 
     //  Use a query parameter for dynamic results
@@ -58,25 +64,33 @@ public class ArtworkController {
     public String processAddArtworkForm(@RequestParam(value="artwork") String artwork) {
         artworks.put(nextId, artwork);
         nextId++;
-        return "<html>" +
-                "<body>" +
-                "<h3>ARTWORK ADDED</h3>" +
+        return """
+                <html>
+                <body>
+                <h3>ARTWORK ADDED</h3>
+                """ +
                 "<p>You have successfully added " + artwork + " to the collection.</p>" +
-                "<p><a href='/artworks/add'>Add another artwork</a> or <a href='/artworks'>view the updated list</a> of artworks.</p>" +
-                "</body>" +
-                "</html>";
+                """
+                <p><a href='/artworks/add'>Add</a> another artwork or view the <a href='/artworks'>updated list</a> of artworks.</p>
+                </body>
+                </html>
+                """;
     }
 
     //  Use a path parameter for dynamic results
     //  Corresponds to http://localhost:8080/artworks/details/3 (for example)
     @GetMapping("/details/{artworkId}")
     public String displayArtworkDetails(@PathVariable(value="artworkId") int artworkId) {
-        return "<html>" +
-                "<body>" +
-                "<h3>Artwork</h3>" +
+        return """
+                <html>
+                <body>
+                <h3>Artwork Details</h3>
+                """ +
                 "<p><b>ID:</b> " + artworkId + "</p>" +
                 "<p><b>Name:</b> " + artworks.get(artworkId) + "</p>" +
-                "</body>" +
-                "</html>";
+                """
+                </body>
+                </html>
+                """;
     }
 }
