@@ -1,20 +1,28 @@
 package org.launchcode.art_gallery_spring_java_back_end.models;
 
+import jakarta.persistence.*;
+
 import java.util.Objects;
 
+@Entity
 public class Artwork {
 
-    private static int nextId = 1;
+    @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    private int id;
 
-    private final int id;
+    @Column(name="title") // this is optional
     private String title;
+
+    @Column(name="artist") // this is also optional
     private String artist;
 
+    // A default constructor is required for database
+    public Artwork() {};
+
     public Artwork(String title, String artist) {
-        this.id = nextId;
         this.title = title;
         this.artist = artist;
-        nextId++;
     }
 
     public int getId() {
