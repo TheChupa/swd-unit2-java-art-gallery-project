@@ -51,7 +51,7 @@ public class ArtworkController {
     // DELETE an existing artwork
     // Corresponds to http://localhost:8080/api/artworks/delete/6 (for example)
     @DeleteMapping(value="/delete/{artworkId}", produces=MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> deleteArtworks(@PathVariable(value="artworkId") int artworkId) {
+    public ResponseEntity<?> deleteArtwork(@PathVariable(value="artworkId") int artworkId) {
         Artwork currentArtwork = artworkRepository.findById(artworkId).orElse(null);
         if (currentArtwork != null) {
             artworkRepository.deleteById(artworkId);
