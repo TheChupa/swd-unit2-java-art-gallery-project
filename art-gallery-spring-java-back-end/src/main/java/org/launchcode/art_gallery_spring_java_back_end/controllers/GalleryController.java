@@ -3,6 +3,9 @@ package org.launchcode.art_gallery_spring_java_back_end.controllers;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.GetMapping;
 
+
+// TODO: Delete this controller altogether
+
 @RestController
 public class GalleryController {
 

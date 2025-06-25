@@ -10,6 +10,16 @@ import java.util.List;
 @RequestMapping("/artworks")
 public class ArtworkController {
 
+    // TODO: Change the base path above to /api/artworks
+
+    // TODO: Remove controller methods where the only purpose was to provide a form on a page
+    //  for server-side rendering
+
+    // TODO: Convert remaining controller methods that perform CRUD ops
+    //  so that they can handle outside requests with proper HTTP responses
+
+    // TODO: Make sure to send alternate responses if a specific artwork does not exist in the database
+
     private final ArtworkRepository artworkRepository;
 
     public ArtworkController(ArtworkRepository artworkRepository) {
