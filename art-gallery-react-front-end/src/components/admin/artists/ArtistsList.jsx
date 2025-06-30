@@ -1,12 +1,31 @@
-const ArtistsList = () => {
+const ArtistsList = ({ artists }) => {
+	let artistRowsJSX = artists.map(artist => {
+		return (
+			<tr>
+				<td>{artist.id}</td>
+				<td>{artist.firstName}</td>
+				<td>{artist.lastName}</td>
+				<td>{artist.location}</td>
+				{artist.artworks.length ? (
+					<td>
+						{/* This is meant to be a filtered table so maybe query param */}
+						<a href={'/artworks/' + artist.id}>
+							View <span>{artist.artworks.length}</span>
+						</a>
+					</td>
+				) : (
+					<td>None</td>
+				)}
+			</tr>
+		);
+	});
+
+	// TODO: See if <main> is already in place or if this will be the norm for all major components
 	return (
 		<main>
 			<h2>ARTISTS</h2>
-			<p th:unless="${artists} and ${artists.size()}">
-				<em>No artists to display.</em>
-			</p>
-			<th:block th:if="${artists} and ${artists.size()}">
-				<table class="table table-striped">
+			{artists.length ? (
+				<table className="table table-striped">
 					<thead>
 						<tr>
 							<th>ID</th>
@@ -16,20 +35,13 @@ const ArtistsList = () => {
 							<th>Artworks</th>
 						</tr>
 					</thead>
-					<tr th:each="artist : ${artists}">
-						<td th:text="${artist.id}"></td>
-						<td th:text="${artist.firstName}"></td>
-						<td th:text="${artist.lastName}"></td>
-						<td th:text="${artist.location}"></td>
-						<td th:if="${artist.artworks.size()}">
-							<a th:href="${'/artworks?artistId=' + artist.id}">
-								View <span th:text="${artist.artworks.size()}"></span>
-							</a>
-						</td>
-						<td th:unless="${artist.artworks.size()}">None</td>
-					</tr>
+					<tbody>{artistRowsJSX}</tbody>
 				</table>
-			</th:block>
+			) : (
+				<p th:unless="${artists} and ${artists.size()}">
+					<em>No artists to display.</em>
+				</p>
+			)}
 		</main>
 	);
 };

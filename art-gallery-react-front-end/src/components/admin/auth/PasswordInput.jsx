@@ -14,9 +14,14 @@ const PasswordInput = ({ id, label, errorMsg }) => {
 	return (
 		<div className="form-item">
 			<label for={id}>{label}</label>
-			<input id={id} type={showInput ? "text" : "password"} value={inputValue} onInput={handleInput} />
+			<input
+				id={id}
+				type={showInput ? 'text' : 'password'}
+				value={inputValue}
+				onInput={handleInput}
+			/>
 			<button onClick={toggleShowPassword}>Show</button>
-            {errorMsg && <p class="error">{errorMsg}</p>}
+			{errorMsg && <p className="error">{errorMsg}</p>}
 		</div>
 	);
 };

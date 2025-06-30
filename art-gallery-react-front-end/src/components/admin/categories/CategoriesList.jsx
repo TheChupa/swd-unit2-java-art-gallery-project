@@ -6,7 +6,7 @@ const CategoriesList = () => {
 				<em>No styles to display.</em>
 			</p>
 			<th:block th:if="${styles} and ${styles.size()}">
-				<table class="table table-striped">
+				<table className="table table-striped">
 					<thead>
 						<tr>
 							<th>ID</th>

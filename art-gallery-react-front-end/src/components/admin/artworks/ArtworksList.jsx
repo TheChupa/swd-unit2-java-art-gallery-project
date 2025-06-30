@@ -16,7 +16,7 @@ const ArtworksList = () => {
 				<em>No artworks to display.</em>
 			</p>
 			<th:block th:if="${artworks} and ${artworks.size()}">
-				<table class="table table-striped">
+				<table className="table table-striped">
 					<thead>
 						<tr>
 							<th>ID</th>

@@ -11,7 +11,7 @@ const TextInput = ({ id, label, errorMsg }) => {
 		<div>
 			<label for={id}>{label}</label>
 			<input id={id} type="text" value={inputValue} onInput={handleInput} />
-            {errorMsg && <p class="error">{errorMsg}</p>}
+			{errorMsg && <p className="error">{errorMsg}</p>}
 		</div>
 	);
 };
