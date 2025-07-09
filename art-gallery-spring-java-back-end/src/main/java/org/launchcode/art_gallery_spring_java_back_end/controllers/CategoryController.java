@@ -27,9 +27,8 @@ public class CategoryController {
     // POST a new category
     // Endpoint http://localhost:8080/api/categories/add?title=Impressionism (for example)
     @PostMapping("/add")
-    public ResponseEntity<?> createNewCategory(@RequestParam(value="title") String title) {
-        Category newCategory = new Category(title);
-        categoryRepository.save(newCategory);
-        return new ResponseEntity<>(newCategory, HttpStatus.CREATED); // 201
+    public ResponseEntity<?> createNewCategory(Category category) {
+        categoryRepository.save(category);
+        return new ResponseEntity<>(category, HttpStatus.CREATED); // 201
     }
 }

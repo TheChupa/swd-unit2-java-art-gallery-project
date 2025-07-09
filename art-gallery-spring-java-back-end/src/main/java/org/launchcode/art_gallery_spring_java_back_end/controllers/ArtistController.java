@@ -42,10 +42,9 @@ public class ArtistController {
     // POST a new artist
     // Endpoint http://localhost:8080/api/artists/add?firstName=Claude&lastName=Monet&location=France (for example)
     @PostMapping("/add")
-    public ResponseEntity<?> createNewArtist(@RequestParam(value="firstName") String firstName, @RequestParam(value="lastName") String lastName, @RequestParam(value="location") String location) {
-        Artist newArtist = new Artist(firstName, lastName, location);
-        artistRepository.save(newArtist);
-        return new ResponseEntity<>(newArtist, HttpStatus.CREATED); // 201
+    public ResponseEntity<?> createNewArtist(Artist artist) {
+        artistRepository.save(artist);
+        return new ResponseEntity<>(artist, HttpStatus.CREATED); // 201
     }
 
     // DELETE an existing artist

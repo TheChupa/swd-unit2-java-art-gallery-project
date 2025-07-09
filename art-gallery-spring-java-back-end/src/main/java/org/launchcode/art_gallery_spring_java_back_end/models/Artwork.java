@@ -1,7 +1,9 @@
 package org.launchcode.art_gallery_spring_java_back_end.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -11,18 +13,22 @@ public class Artwork {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
 
-    @Column(name="title") // this is optional
     private String title;
 
-    @Column(name="artist") // this is also optional
-    private String artist;
+    @ManyToOne
+    @JsonManagedReference
+    private Artist artist;
 
-    // A default constructor is required for database
+    @ManyToOne
+    @JsonManagedReference
+    private Category category;
+
     public Artwork() {};
 
-    public Artwork(String title, String artist) {
+    public Artwork(String title, Artist artist, Category category) {
         this.title = title;
         this.artist = artist;
+        this.category = category;
     }
 
     public int getId() {
@@ -37,11 +43,11 @@ public class Artwork {
         this.title = title;
     }
 
-    public String getArtist() {
+    public Artist getArtist() {
         return artist;
     }
 
-    public void setArtist(String artist) {
+    public void setArtist(Artist artist) {
         this.artist = artist;
     }
 

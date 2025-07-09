@@ -42,10 +42,9 @@ public class ArtworkController {
     // POST a new artwork
     // Endpoint http://localhost:8080/api/artworks/add?title=The+Starry+Night&artist=Vincent+van+Gogh (for example)
     @PostMapping("/add")
-    public ResponseEntity<?> createNewArtwork(@RequestParam(value="title") String title, @RequestParam(value="artist") String artist) {
-        Artwork newArtwork = new Artwork(title, artist);
-        artworkRepository.save(newArtwork);
-        return new ResponseEntity<>(newArtwork, HttpStatus.CREATED); // 201
+    public ResponseEntity<?> createNewArtwork(Artwork artwork) {
+        artworkRepository.save(artwork);
+        return new ResponseEntity<>(artwork, HttpStatus.CREATED); // 201
     }
 
     // DELETE an existing artwork

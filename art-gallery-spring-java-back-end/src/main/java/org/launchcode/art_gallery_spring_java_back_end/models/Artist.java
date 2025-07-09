@@ -1,7 +1,10 @@
 package org.launchcode.art_gallery_spring_java_back_end.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -11,14 +14,13 @@ public class Artist {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
 
-    @Column(name="first_name")
     private String firstName;
-
-    @Column(name="last_name")
     private String lastName;
-
-    @Column(name="location")
     private String location;
+
+    @OneToMany(mappedBy="artist")
+    @JsonBackReference
+    private final List<Artwork> artworks = new ArrayList<>();
 
     public Artist(String firstName, String lastName, String location) {
         this.firstName = firstName;
@@ -54,6 +56,10 @@ public class Artist {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public List<Artwork> getArtworks() {
+        return artworks;
     }
 
     @Override
