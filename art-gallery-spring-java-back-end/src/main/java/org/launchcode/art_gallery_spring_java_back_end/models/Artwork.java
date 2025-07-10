@@ -3,7 +3,6 @@ package org.launchcode.art_gallery_spring_java_back_end.models;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
-import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -23,12 +22,17 @@ public class Artwork {
     @JsonManagedReference
     private Category category;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "details_id", referencedColumnName = "id")
+    private ArtworkDetails details;
+
     public Artwork() {};
 
-    public Artwork(String title, Artist artist, Category category) {
+    public Artwork(String title, Artist artist, Category category, ArtworkDetails details) {
         this.title = title;
         this.artist = artist;
         this.category = category;
+        this.details = details;
     }
 
     public int getId() {
@@ -49,6 +53,22 @@ public class Artwork {
 
     public void setArtist(Artist artist) {
         this.artist = artist;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public ArtworkDetails getDetails() {
+        return details;
+    }
+
+    public void setDetails(ArtworkDetails details) {
+        this.details = details;
     }
 
     @Override

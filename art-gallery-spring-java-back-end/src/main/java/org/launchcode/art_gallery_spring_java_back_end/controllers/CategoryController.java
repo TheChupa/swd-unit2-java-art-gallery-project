@@ -1,6 +1,7 @@
 package org.launchcode.art_gallery_spring_java_back_end.controllers;
 
 import org.launchcode.art_gallery_spring_java_back_end.models.Category;
+import org.launchcode.art_gallery_spring_java_back_end.models.dto.CategoryDTO;
 import org.launchcode.art_gallery_spring_java_back_end.repositories.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,8 +28,9 @@ public class CategoryController {
     // POST a new category
     // Endpoint http://localhost:8080/api/categories/add?title=Impressionism (for example)
     @PostMapping("/add")
-    public ResponseEntity<?> createNewCategory(Category category) {
-        categoryRepository.save(category);
-        return new ResponseEntity<>(category, HttpStatus.CREATED); // 201
+    public ResponseEntity<?> createNewCategory(@RequestBody CategoryDTO categoryData) {
+        Category newCategory = new Category(categoryData.getTitle());
+        categoryRepository.save(newCategory);
+        return new ResponseEntity<>(newCategory, HttpStatus.CREATED); // 201
     }
 }

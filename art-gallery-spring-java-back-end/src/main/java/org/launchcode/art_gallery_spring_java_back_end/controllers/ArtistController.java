@@ -1,6 +1,7 @@
 package org.launchcode.art_gallery_spring_java_back_end.controllers;
 
 import org.launchcode.art_gallery_spring_java_back_end.models.Artist;
+import org.launchcode.art_gallery_spring_java_back_end.models.dto.ArtistDTO;
 import org.launchcode.art_gallery_spring_java_back_end.repositories.ArtistRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -41,10 +42,11 @@ public class ArtistController {
 
     // POST a new artist
     // Endpoint http://localhost:8080/api/artists/add?firstName=Claude&lastName=Monet&location=France (for example)
-    @PostMapping("/add")
-    public ResponseEntity<?> createNewArtist(Artist artist) {
-        artistRepository.save(artist);
-        return new ResponseEntity<>(artist, HttpStatus.CREATED); // 201
+    @PostMapping(value="/add", consumes=MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> createNewArtist(@RequestBody ArtistDTO artistData) {
+        Artist newArtist = new Artist(artistData.getFirstName(), artistData.getLastName(), artistData.getLocation());
+        artistRepository.save(newArtist);
+        return new ResponseEntity<>(newArtist, HttpStatus.CREATED); // 201
     }
 
     // DELETE an existing artist

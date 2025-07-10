@@ -11,12 +11,12 @@ import java.util.Objects;
 public class Category {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     private String title;
 
-    @OneToMany(mappedBy="categories")
+    @OneToMany(mappedBy = "category")
     @JsonBackReference
     private final List<Artwork> artworks = new ArrayList<>();
 
@@ -33,6 +33,7 @@ public class Category {
     public String getTitle() {
         return title;
     }
+
     public void setTitle(String title) {
         this.title = title;
     }

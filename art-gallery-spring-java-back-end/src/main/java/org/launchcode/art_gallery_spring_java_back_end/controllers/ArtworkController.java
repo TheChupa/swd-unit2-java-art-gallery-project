@@ -1,7 +1,12 @@
 package org.launchcode.art_gallery_spring_java_back_end.controllers;
 
+import org.launchcode.art_gallery_spring_java_back_end.models.Artist;
 import org.launchcode.art_gallery_spring_java_back_end.models.Artwork;
+import org.launchcode.art_gallery_spring_java_back_end.models.Category;
+import org.launchcode.art_gallery_spring_java_back_end.models.dto.ArtworkDTO;
+import org.launchcode.art_gallery_spring_java_back_end.repositories.ArtistRepository;
 import org.launchcode.art_gallery_spring_java_back_end.repositories.ArtworkRepository;
+import org.launchcode.art_gallery_spring_java_back_end.repositories.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -17,6 +22,12 @@ public class ArtworkController {
 
     @Autowired
     ArtworkRepository artworkRepository;
+
+    @Autowired
+    ArtistRepository artistRepository;
+
+    @Autowired
+    CategoryRepository categoryRepository;
 
     // GET the full list of artworks
     // Endpoint is http://localhost:8080/api/artworks
@@ -41,10 +52,13 @@ public class ArtworkController {
 
     // POST a new artwork
     // Endpoint http://localhost:8080/api/artworks/add?title=The+Starry+Night&artist=Vincent+van+Gogh (for example)
-    @PostMapping("/add")
-    public ResponseEntity<?> createNewArtwork(Artwork artwork) {
-        artworkRepository.save(artwork);
-        return new ResponseEntity<>(artwork, HttpStatus.CREATED); // 201
+    @PostMapping(value="/add", consumes=MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> createNewArtwork(@RequestBody ArtworkDTO artworkData) {
+        Artist artist = artistRepository.findById(artworkData.getArtistId()).orElse(null);
+        Category category = categoryRepository.findById(artworkData.getCategoryId()).orElse(null);
+        Artwork newArtwork = new Artwork(artworkData.getTitle(), artist, category, artworkData.getDetails());
+        artworkRepository.save(newArtwork);
+        return new ResponseEntity<>(newArtwork, HttpStatus.CREATED); // 201
     }
 
     // DELETE an existing artwork
