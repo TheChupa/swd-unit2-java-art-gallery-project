@@ -4,11 +4,14 @@ import org.launchcode.art_gallery_spring_java_back_end.models.Artist;
 import org.launchcode.art_gallery_spring_java_back_end.models.ArtworkDetails;
 import org.launchcode.art_gallery_spring_java_back_end.models.Category;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ArtworkDTO {
 
     private String title;
     private int artistId;
-    private int categoryId;
+    private List<Integer> categoryIds;
     private ArtworkDetails details;
 
     public String getTitle() {
@@ -25,11 +28,11 @@ public class ArtworkDTO {
         this.artistId = artistId;
     }
 
-    public int getCategoryId() {
-        return categoryId;
+    public List<Integer> getCategoryIds() {
+        return categoryIds;
     }
-    public void setCategoryId(int categoryId) {
-        this.categoryId = categoryId;
+    public void setCategoryId(List<Integer> categoryIds) {
+        this.categoryIds = categoryIds;
     }
 
     public ArtworkDetails getDetails() {

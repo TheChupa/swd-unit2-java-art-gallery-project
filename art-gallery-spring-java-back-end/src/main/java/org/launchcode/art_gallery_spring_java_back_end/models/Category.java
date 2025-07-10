@@ -16,7 +16,7 @@ public class Category {
 
     private String title;
 
-    @OneToMany(mappedBy = "category")
+    @ManyToMany(mappedBy = "categories")
     @JsonBackReference
     private final List<Artwork> artworks = new ArrayList<>();
 

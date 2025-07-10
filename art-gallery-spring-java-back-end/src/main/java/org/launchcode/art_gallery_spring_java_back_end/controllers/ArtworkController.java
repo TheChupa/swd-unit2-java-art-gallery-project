@@ -13,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -55,8 +56,14 @@ public class ArtworkController {
     @PostMapping(value="/add", consumes=MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> createNewArtwork(@RequestBody ArtworkDTO artworkData) {
         Artist artist = artistRepository.findById(artworkData.getArtistId()).orElse(null);
-        Category category = categoryRepository.findById(artworkData.getCategoryId()).orElse(null);
-        Artwork newArtwork = new Artwork(artworkData.getTitle(), artist, category, artworkData.getDetails());
+        List<Category> categories = new ArrayList<>();
+        for (int categoryId : artworkData.getCategoryIds()) {
+            Category category = categoryRepository.findById(categoryId).orElse(null);
+            if (category != null) {
+                categories.add(category);
+            }
+        }
+        Artwork newArtwork = new Artwork(artworkData.getTitle(), artist, categories, artworkData.getDetails());
         artworkRepository.save(newArtwork);
         return new ResponseEntity<>(newArtwork, HttpStatus.CREATED); // 201
     }
