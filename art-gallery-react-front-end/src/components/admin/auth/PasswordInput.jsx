@@ -1,10 +1,7 @@
-const PasswordInput = ({ id, label, errorMsg }) => {
-	[inputValue, setInputValue] = useState('');
-	[showInput, setShowInput] = useState(false);
+import InputErrorMessage from "../../common/InputErrorMsg";
 
-	const handleInput = event => {
-		setInputValue(event.target.value);
-	};
+const PasswordInput = ({ id, label, value, handleChange }) => {
+	[showInput, setShowInput] = useState(false);
 
 	const toggleShowPassword = () => {
 		setShowInput(!showInput);
@@ -17,11 +14,10 @@ const PasswordInput = ({ id, label, errorMsg }) => {
 			<input
 				id={id}
 				type={showInput ? 'text' : 'password'}
-				value={inputValue}
-				onInput={handleInput}
+				value={value}
+				onChange={handleChange}
 			/>
 			<button onClick={toggleShowPassword}>Show</button>
-			{errorMsg && <p className="error">{errorMsg}</p>}
 		</div>
 	);
 };

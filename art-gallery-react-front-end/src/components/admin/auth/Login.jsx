@@ -1,8 +1,35 @@
+import { Link } from 'react-router';
+import InputErrorMessage from '../../common/InputErrorMsg';
+import TextInput from '../../common/TextInput';
+import PasswordInput from './PasswordInput';
+
+const errorMessages = {
+	usernameRequired: 'Username is required.',
+	passwordRequired: 'Password is required.',
+};
+
 const Login = () => {
-	const [loginData, setLoginData] = useState({
-		username: '',
-		password: '',
-	});
+	const [username, setUsername] = useState('');
+	const [password, setPassword] = useState('');
+	const [hasErrors, setHasErrors] = useState(false);
+
+	const handleUsernameChange = event => {
+		setUsername(event.target.value);
+	};
+
+	const handlePasswordChange = event => {
+		setPassword(event.target.value);
+	};
+
+	const handleSubmit = event => {
+		if (username === '' || password === '') {
+			event.preventDefault();
+			setHasErrors(true);
+		} else {
+			// TODO: POST to /api/artists/add endpoint
+			console.log('Validation passed and form submitted.');
+		}
+	};
 
 	return (
 		<main>
@@ -12,26 +39,43 @@ const Login = () => {
 				<div className="container">
 					<div className="row">
 						<div className="form-item col-4">
-							<label for="username">Username</label>
-							<input id="username" value={loginData.username} type="text" />
-							{hasErrors && <p className="error">Username is required.</p>}
+							<TextInput
+								id="username"
+								label="Username"
+								value={username}
+								setValue={setUsername}
+								handleChange={handleUsernameChange}
+							/>
+							<InputErrorMessage
+								hasError={hasErrors && username === ''}
+								msg={errorMessages[usernameRequired]}
+							/>
 						</div>
 					</div>
 				</div>
 				<div className="container">
 					<div className="row">
 						<div className="form-item col-4">
-							<label for="password">Password</label>
-							<input value={loginData.password} type="password" />
-							{hasErrors && <p className="error">Password is required.</p>}
+							<PasswordInput
+								id="password"
+								label="Password"
+								value={password}
+								handleChange={handlePasswordChange}
+							/>
+							<InputErrorMessage
+								hasError={hasErrors && password === ''}
+								msg={errorMessages[passwordRequired]}
+							/>
 						</div>
 					</div>
 				</div>
 
-				<button type="submit">Log In</button>
+				<button type="submit" onSubmit={handleSubmit}>
+					Log In
+				</button>
 			</form>
 			<p className="mt-5">
-				Don't have an account? <a href="/register">Register here.</a>
+				Don't have an account? <Link to="/register">Register here.</Link>
 			</p>
 		</main>
 	);

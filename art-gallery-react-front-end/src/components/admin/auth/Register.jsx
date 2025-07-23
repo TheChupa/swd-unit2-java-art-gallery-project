@@ -1,6 +1,98 @@
-const Register = () => {
+import { Link } from 'react-router';
+import { InputErrorMessage, TextInput } from '../../common/exports.js';
+import PasswordInput from './PasswordInput';
 
-    const [ registerData, setRegisterData ] = useState({});
-}
+const errorMessages = {
+	usernameRequired: 'Username is required.',
+	passwordLength: 'Password must be at least 8 characters long.',
+	passwordMismatch: 'Password must be identical.',
+};
+
+const Register = () => {
+	const [username, setUsername] = useState('');
+	const [password, setPassword] = useState('');
+	const [verifyPassword, setVerifyPassword] = useState('');
+
+	const handleUsernameChange = event => {
+		setUsername(event.target.value);
+	};
+
+	const handlePasswordChange = event => {
+		setPassword(event.target.value);
+	};
+
+	const handleVerifyPasswordChange = event => {
+		setVerifyPassword(event.target.value);
+	};
+
+	const handleSubmit = event => {
+		if (username === '' || password.length < 8 || password !== verifyPassword) {
+			event.preventDefault();
+			setHasErrors(true);
+		} else {
+			// TODO: POST to /api/artists/add endpoint
+			console.log('Validation passed and form submitted.');
+		}
+	};
+
+	return (
+		<main>
+			<h1>Register New User</h1>
+
+			<form method="post">
+				<div className="container">
+					<div className="row">
+						<div className="form-item col-4">
+							<TextInput
+								id="username"
+								label="Username"
+								value={username}
+								setValue={setUsername}
+								handleChange={handleUsernameChange}
+							/>
+							<InputErrorMessage
+								hasError={hasErrors && username === ''}
+								msg={errorMessages[usernameRequired]}
+							/>
+						</div>
+					</div>
+				</div>
+				<div class="container">
+					<div class="row">
+						<div class="form-item col-4">
+							<PasswordInput
+								id="password"
+								label="Password"
+								value={password}
+								handleChange={handlePasswordChange}
+							/>
+							<InputErrorMessage
+								hasError={hasErrors && password.length < 8}
+								msg={errorMessages[passwordLength]}
+							/>
+						</div>
+						<div class="form-item col-4">
+							<PasswordInput
+								id="verifyPassword"
+								label="Verify Password"
+								value={verifyPassword}
+								handleChange={handleVerifyPasswordChange}
+							/>
+							<InputErrorMessage
+								hasError={hasErrors && password !== verifyPassword}
+								msg={errorMessages[passwordMismatch]}
+							/>
+						</div>
+					</div>
+				</div>
+
+				<button type="submit">Register</button>
+			</form>
+			<p className="mt-5">
+				Already have an account? <Link to="/login">Log in here.</Link>
+			</p>
+		</main>
+	);
+};
 
 export default Register;
