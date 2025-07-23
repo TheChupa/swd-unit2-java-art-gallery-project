@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import TextInput from '../../common/TextInput';
 
 const CategoryForm = () => {
 	const [category, setCategory] = useState('');
@@ -14,7 +15,7 @@ const CategoryForm = () => {
 			setHasErrors(true);
 		} else {
 			console.log('Validation passed and form submitted.');
-			// POST to /api/categories/add endpoint
+			// TODO: POST to /api/categories/add endpoint
 			setHasErrors(false); // TODO: if component is removed this is probably not necessary
 		}
 	};
@@ -25,12 +26,11 @@ const CategoryForm = () => {
 			<form action="/categories/add" method="POST">
 				<div className="form-item">
 					<label for="name">Name of Category</label>
-					<input
-						type="text"
+					<TextInput
 						id="title"
-						name="title"
+						label="Title"
 						value={category}
-						onChange={handleChange}
+						handleChange={handleChange}
 					/>
 					<InputErrorMessage
 						hasError={hasErrors && category === ''}
