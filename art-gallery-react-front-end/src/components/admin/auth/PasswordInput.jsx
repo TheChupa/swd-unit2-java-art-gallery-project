@@ -1,4 +1,4 @@
-import InputErrorMessage from "../../common/InputErrorMsg";
+import InputErrorMessage from '../../common/InputErrorMsg';
 
 const PasswordInput = ({ id, label, value, handleChange }) => {
 	[showInput, setShowInput] = useState(false);
@@ -9,7 +9,7 @@ const PasswordInput = ({ id, label, value, handleChange }) => {
 
 	// TODO: Get icons for show and hide
 	return (
-		<div className="form-item">
+		<>
 			<label for={id}>{label}</label>
 			<input
 				id={id}
@@ -18,7 +18,7 @@ const PasswordInput = ({ id, label, value, handleChange }) => {
 				onChange={handleChange}
 			/>
 			<button onClick={toggleShowPassword}>Show</button>
-		</div>
+		</>
 	);
 };
 

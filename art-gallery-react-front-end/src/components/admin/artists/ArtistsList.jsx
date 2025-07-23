@@ -1,3 +1,5 @@
+import { Link } from 'react-router';
+
 const ArtistsList = ({ artists }) => {
 	let artistRowsJSX = artists.map(artist => {
 		return (
@@ -8,10 +10,9 @@ const ArtistsList = ({ artists }) => {
 				<td>{artist.location}</td>
 				{artist.artworks.length ? (
 					<td>
-						{/* TODO: This is meant to be a filtered table so maybe query param */}
-						<a href={'/artworks/' + artist.id}>
+						<Link to={'/artworks/' + artist.id}>
 							View <span>{artist.artworks.length}</span>
-						</a>
+						</Link>
 					</td>
 				) : (
 					<td>None</td>
@@ -20,9 +21,8 @@ const ArtistsList = ({ artists }) => {
 		);
 	});
 
-	// TODO: See if <main> is already in place or if this will be the norm for all major components
 	return (
-		<main>
+		<>
 			<h2>ARTISTS</h2>
 			{artists.length ? (
 				<table className="table table-striped">
@@ -42,7 +42,7 @@ const ArtistsList = ({ artists }) => {
 					<em>No artists to display.</em>
 				</p>
 			)}
-		</main>
+		</>
 	);
 };
 

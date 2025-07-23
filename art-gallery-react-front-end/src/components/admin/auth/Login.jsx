@@ -22,20 +22,21 @@ const Login = () => {
 	};
 
 	const handleSubmit = event => {
+		event.preventDefault();
 		if (username === '' || password === '') {
-			event.preventDefault();
 			setHasErrors(true);
 		} else {
-			// TODO: POST to /api/artists/add endpoint
+			// TODO: POST to /login endpoint
 			console.log('Validation passed and form submitted.');
+			// Components should rerender to show logged in view of home
 		}
 	};
 
 	return (
-		<main>
+		<>
 			<h1>Log In</h1>
 
-			<form method="post">
+			<form>
 				<div className="container">
 					<div className="row">
 						<div className="form-item col-4">
@@ -77,7 +78,7 @@ const Login = () => {
 			<p className="mt-5">
 				Don't have an account? <Link to="/register">Register here.</Link>
 			</p>
-		</main>
+		</>
 	);
 };
 

@@ -14,16 +14,18 @@ const CategoryForm = () => {
 			event.preventDefault();
 			setHasErrors(true);
 		} else {
-			console.log('Validation passed and form submitted.');
+			let newCategory = { title: category };
 			// TODO: POST to /api/categories/add endpoint
-			setHasErrors(false); // TODO: if component is removed this is probably not necessary
+			console.log('Validation passed and form submitted.');
+			console.log(newCategory);
+			// Toggle back to categories list
 		}
 	};
 
 	return (
 		<main>
 			<h3>Add Category</h3>
-			<form action="/categories/add" method="POST">
+			<form>
 				<div className="form-item">
 					<label for="name">Name of Category</label>
 					<TextInput
@@ -37,7 +39,7 @@ const CategoryForm = () => {
 						msg="Category name is required."
 					/>
 				</div>
-				<button type="submit" onSubmit={handleSubmit}>
+				<button type="submit" onClick={handleSubmit}>
 					Add Category
 				</button>
 			</form>

@@ -30,16 +30,17 @@ const Register = () => {
 			event.preventDefault();
 			setHasErrors(true);
 		} else {
-			// TODO: POST to /api/artists/add endpoint
+			// TODO: POST to /register endpoint
 			console.log('Validation passed and form submitted.');
+			// Components should rerender to show logged in view of home
 		}
 	};
 
 	return (
-		<main>
+		<>
 			<h1>Register New User</h1>
 
-			<form method="post">
+			<form>
 				<div className="container">
 					<div className="row">
 						<div className="form-item col-4">
@@ -91,7 +92,7 @@ const Register = () => {
 			<p className="mt-5">
 				Already have an account? <Link to="/login">Log in here.</Link>
 			</p>
-		</main>
+		</>
 	);
 };
 

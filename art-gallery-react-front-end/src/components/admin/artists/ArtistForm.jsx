@@ -26,19 +26,21 @@ const ArtistForm = () => {
 	};
 
 	const handleSubmit = event => {
+		event.preventDefault();
 		if (artist.firstName === '' || artist.lastName === '') {
-			event.preventDefault();
 			setHasErrors(true);
 		} else {
-            // TODO: POST to /api/artists/add endpoint
+			// TODO: POST to /api/artists/add endpoint
 			console.log('Validation passed and form submitted.');
+            console.log(artist);
+			// TODO: route to ArtistsLists
 		}
 	};
 
 	return (
-		<main>
+		<>
 			<h3>Add Artist</h3>
-			<form action="/artists" method="POST">
+			<form>
 				<div className="form-item">
 					<TextInput
 						id="firstName"
@@ -52,7 +54,8 @@ const ArtistForm = () => {
 					/>
 				</div>
 				<div className="form-item">
-\					<TextInput
+					\{' '}
+					<TextInput
 						id="lastName"
 						label="Last Name"
 						value={artist.lastName}
@@ -75,7 +78,7 @@ const ArtistForm = () => {
 					Add Artist
 				</button>
 			</form>
-		</main>
+		</>
 	);
 };
 

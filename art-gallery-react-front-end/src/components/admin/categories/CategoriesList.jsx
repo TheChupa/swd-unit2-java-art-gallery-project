@@ -1,11 +1,26 @@
-const CategoriesList = () => {
+import { Link } from 'react-router';
+
+const CategoriesList = ({ categories }) => {
+	let categoriesJSX = categories.map(category => {
+		<tr>
+			<td>{category.id}</td>
+			<td>{category.title}</td>
+			{category.artworks.length ? (
+				<td>
+					<Link to={'/artworks?categoryId=' + category.id}>
+						View {category.artworks.length}
+					</Link>
+				</td>
+			) : (
+				<td>None</td>
+			)}
+		</tr>;
+	});
+
 	return (
-		<main>
+		<>
 			<h2>STYLES</h2>
-			<p th:unless="${styles} and ${styles.size()}">
-				<em>No styles to display.</em>
-			</p>
-			<th:block th:if="${styles} and ${styles.size()}">
+			{categories.length ? (
 				<table className="table table-striped">
 					<thead>
 						<tr>
@@ -14,19 +29,14 @@ const CategoriesList = () => {
 							<th>Artworks</th>
 						</tr>
 					</thead>
-					<tr th:each="style : ${styles}">
-						<td th:text="${style.id}"></td>
-						<td th:text="${style.name}"></td>
-						<td th:if="${style.artworks.size()}">
-							<a th:href="${'/artworks?styleId=' + style.id}">
-								View <span th:text="${style.artworks.size()}"></span>
-							</a>
-						</td>
-						<td th:unless="${style.artworks.size()}">None</td>
-					</tr>
+					<tbody>{categoriesJSX}</tbody>
 				</table>
-			</th:block>
-		</main>
+			) : (
+				<p>
+					<em>No categories to display.</em>
+				</p>
+			)}
+		</>
 	);
 };
 

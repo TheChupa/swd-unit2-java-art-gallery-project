@@ -7,7 +7,7 @@ import {
 	Header,
 	Loading,
 } from './components/public/exports';
-import { Artist, Artwork, ArtworkDetails, Style } from './classes/exports';
+import { Artist, Artwork, ArtworkDetails, Category } from './classes/exports';
 import { isEmpty } from './shared/utils';
 import './App.css';
 
@@ -36,9 +36,9 @@ function App() {
 					obj.artist.lastName,
 					obj.artist.location
 				);
-				let styles = [];
-				obj.styles.forEach(style => {
-					styles.push(new Style(style.id, style.name));
+				let categories = [];
+				obj.categories.forEach(category => {
+					obj.categories.push(new Category(category.id, category.title));
 				});
 				let details = new ArtworkDetails(
 					obj.details.id,
@@ -50,8 +50,8 @@ function App() {
 					obj.details.depth,
 					obj.details.imageId
 				);
-				let artwork = new Artwork(obj.id, obj.title, artist, styles, details);
-				artworks[artwork.id] = artwork;
+				let artwork = new Artwork(obj.id, obj.title, details, artist, categories);
+				artworks.push(artwork);
 			});
 		} catch (e) {
 			console.log('Unable to create artwork objects without data.');
