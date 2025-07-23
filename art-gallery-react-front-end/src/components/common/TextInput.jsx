@@ -1,5 +1,3 @@
-import InputErrorMessage from "./InputErrorMsg";
-
 const TextInput = ({ id, label, value, handleChange }) => {
 
 	return (

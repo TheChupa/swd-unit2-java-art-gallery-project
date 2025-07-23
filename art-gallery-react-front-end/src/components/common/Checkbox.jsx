@@ -1,7 +1,15 @@
-const Checkbox = ({ id, label, isChecked }) => {
+const Checkbox = ({ id, name, label, isChecked, handleChange }) => {
 	return (
 		<div className="checkbox-with-label">
-			<input id={id} className="checkbox" type="checkbox" checked={isChecked} />
+			<input
+				id={id}
+				name={name}
+                value={id}
+				className="checkbox"
+				type="checkbox"
+				checked={isChecked}
+                onChange={handleChange}
+			/>
 			<label for={id}>{label}</label>
 		</div>
 	);
