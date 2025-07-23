@@ -9,4 +9,8 @@ export default class Artist {
 	getFullName() {
 		return `${this.firstName} ${this.lastName}`;
 	}
+
+	getParam() {
+		return `${this.firstName}${this.lastName}`;
+	}
 }

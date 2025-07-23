@@ -1,20 +1,13 @@
 export default class Artwork {
-	constructor(id, title, artist, styles, details) {
+	constructor(id, title, details, artist, categories) {
 		this.id = id;
 		this.title = title;
-		this.artist = artist; // Artist object
-		this.styles = styles; // array of Style objects
 		this.details = details; // ArtworkDetails object
+		this.artist = artist; // Artist object
+		this.categories = categories; // array of Category objects
 	}
 
-	getFormattedStyles() {
-		let styleNames = '';
-		for (let i = 0; i < this.styles.length; i++) {
-			styleNames += this.styles[i].name;
-			if (i < this.styles.length - 1) {
-				styleNames += ', ';
-			}
-		}
-		return styleNames;
+	getFormattedCategories() {
+        return this.categories.join(", ");
 	}
 }
