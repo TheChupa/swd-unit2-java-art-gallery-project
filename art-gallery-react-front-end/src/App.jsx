@@ -16,7 +16,7 @@ function App() {
 	const [allArtworks, setAllArtworks] = useState({});
 
 	const fetchArtworks = async () => {
-		let artworks = {};
+		let artworks = [];
 
 		let response;
 		let data;
@@ -24,6 +24,7 @@ function App() {
 		try {
 			response = await fetch('http://localhost:8080/api/artworks');
 			data = await response.json();
+            console.log(data);
 		} catch (e) {
 			setLoading(false);
 		}
@@ -36,9 +37,10 @@ function App() {
 					obj.artist.lastName,
 					obj.artist.location
 				);
+                console.log('artist', artist)
 				let categories = [];
 				obj.categories.forEach(category => {
-					obj.categories.push(new Category(category.id, category.title));
+					categories.push(new Category(category.id, category.title));
 				});
 				let details = new ArtworkDetails(
 					obj.details.id,
@@ -50,11 +52,13 @@ function App() {
 					obj.details.depth,
 					obj.details.imageId
 				);
+                console.log('details', details)
 				let artwork = new Artwork(obj.id, obj.title, details, artist, categories);
+                console.log('artwork', artwork);
 				artworks.push(artwork);
 			});
 		} catch (e) {
-			console.log('Unable to create artwork objects without data.');
+			console.log('Unable to create artwork objects.');
 		}
 
 		setAllArtworks(artworks);

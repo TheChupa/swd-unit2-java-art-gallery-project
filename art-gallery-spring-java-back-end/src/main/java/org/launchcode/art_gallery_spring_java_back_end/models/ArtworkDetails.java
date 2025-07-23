@@ -10,6 +10,7 @@ public class ArtworkDetails {
     private int id;
 
     private String yearCreated;
+    private String media;
     private String description;
     private double width;
     private double height;
@@ -21,8 +22,9 @@ public class ArtworkDetails {
 
     public ArtworkDetails() {}
 
-    public ArtworkDetails(String yearCreated, String description, double width, double height, double depth, String imageId) {
+    public ArtworkDetails(String yearCreated, String media, String description, double width, double height, double depth, String imageId) {
         this.yearCreated = yearCreated;
+        this.media = media;
         this.description = description;
         this.width = width;
         this.height = height;
@@ -36,6 +38,14 @@ public class ArtworkDetails {
 
     public void setYearCreated(String yearCreated) {
         this.yearCreated = yearCreated;
+    }
+
+    public String getMedia() {
+        return media;
+    }
+
+    public void setMedia(String media) {
+        this.media = media;
     }
 
     public String getDescription() {
