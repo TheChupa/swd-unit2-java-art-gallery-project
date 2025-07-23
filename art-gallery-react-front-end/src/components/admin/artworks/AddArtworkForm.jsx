@@ -35,7 +35,7 @@ let errorMessages = {
 	categoryRequired: 'At least one category must be selected.',
 };
 
-const ArtworkForm = ({ artists, categories }) => {
+const AddArtworkForm = ({ artists, categories }) => {
 	const [artwork, setArtwork] = useState(initialArtwork);
 	const [details, setDetails] = useState(initialDetails);
 	const [checkboxes, setCheckboxes] = useState([]);
@@ -252,4 +252,4 @@ const ArtworkForm = ({ artists, categories }) => {
 	);
 };
 
-export default ArtworkForm;
+export default AddArtworkForm;

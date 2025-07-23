@@ -1,4 +1,4 @@
-const Header = () => {
+const PublicHeader = () => {
 
     // TODO: use Navlinks and active link here with routing
     
@@ -20,4 +20,4 @@ const Header = () => {
 	);
 };
 
-export default Header;
+export default PublicHeader;

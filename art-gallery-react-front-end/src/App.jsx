@@ -8,12 +8,16 @@ import {
 	Loading,
 } from './components/public/exports';
 import { Artist, Artwork, ArtworkDetails, Category } from './classes/exports';
-import { isEmpty } from './shared/utils';
 import './App.css';
+import PublicHeader from './components/public/PublicHeader';
 
 function App() {
 	const [loading, setLoading] = useState(true);
-	const [allArtworks, setAllArtworks] = useState({});
+	const [loggedIn, setLoggedIn] = useState(false); // TEMP until auth is implemented
+
+	const [allArtworks, setAllArtworks] = useState([]);
+	const [allArtists, setAllArtists] = useState([]);
+	const [allCategories, setAllCategories] = useState([]);
 
 	const fetchArtworks = async () => {
 		let artworks = [];
@@ -24,64 +28,131 @@ function App() {
 		try {
 			response = await fetch('http://localhost:8080/api/artworks');
 			data = await response.json();
-            console.log(data);
 		} catch (e) {
 			setLoading(false);
 		}
 
 		try {
-			data.forEach(obj => {
+			data.forEach(artwork => {
 				let artist = new Artist(
-					obj.artist.id,
-					obj.artist.firstName,
-					obj.artist.lastName,
-					obj.artist.location
+					artwork.artist.id,
+					artwork.artist.firstName,
+					artwork.artist.lastName,
+					artwork.artist.location
 				);
-                console.log('artist', artist)
 				let categories = [];
-				obj.categories.forEach(category => {
+				artwork.categories.forEach(category => {
 					categories.push(new Category(category.id, category.title));
 				});
 				let details = new ArtworkDetails(
-					obj.details.id,
-					obj.details.media,
-					obj.details.yearCreated,
-					obj.details.description,
-					obj.details.width,
-					obj.details.height,
-					obj.details.depth,
-					obj.details.imageId
+					artwork.details.id,
+					artwork.details.media,
+					artwork.details.yearCreated,
+					artwork.details.description,
+					artwork.details.width,
+					artwork.details.height,
+					artwork.details.depth,
+					artwork.details.imageId
 				);
-                console.log('details', details)
-				let artwork = new Artwork(obj.id, obj.title, details, artist, categories);
-                console.log('artwork', artwork);
-				artworks.push(artwork);
+				let newArtwork = new Artwork(
+					artwork.id,
+					artwork.title,
+					details,
+					artist,
+					categories
+				);
+				artworks.push(newArtwork);
 			});
 		} catch (e) {
-			console.log('Unable to create artwork objects.');
+			console.log('Unable to create Artwork objects.');
 		}
 
 		setAllArtworks(artworks);
 	};
 
+	const fetchArtists = async () => {
+		let artists = [];
+
+		let response;
+		let data;
+
+		try {
+			response = await fetch('http://localhost:8080/api/artists');
+			data = await response.json();
+		} catch (e) {
+			setLoading(false);
+		}
+
+		try {
+			data.forEach(artist => {
+				let newArtist = new Artist(
+					artist.id,
+					artist.firstName,
+					artist.lastName,
+					artist.location
+				);
+				artists.push(newArtist);
+			});
+		} catch (e) {
+			console.log('Unable to create Artist objects.');
+		}
+
+		setAllArtists(artists);
+	};
+
+	const fetchCategories = async () => {
+		let categories = [];
+
+		let response;
+		let data;
+
+		try {
+			response = await fetch('http://localhost:8080/api/artists');
+			data = await response.json();
+		} catch (e) {
+			setLoading(false);
+		}
+
+		try {
+			data.forEach(category => {
+				let newCategory = new Artist(category.id, category.title);
+				categories.push(newCategory);
+			});
+		} catch (e) {
+			console.log('Unable to create Artist objects.');
+		}
+
+		setAllCategories(categories);
+	};
+
 	useEffect(() => {
 		fetchArtworks();
+		fetchArtists();
+		fetchCategories();
 	}, []);
 
 	useEffect(() => {
-		if (Object.values(allArtworks).length > 0) {
+		if (
+			allArtworks.length > 0 &&
+			allArtists.length > 0 &&
+			allCategories.length > 0
+		) {
 			setLoading(false);
 		}
-	}, [allArtworks]);
+	}, [allArtworks, allArtists, allCategories]);
+
+    /*
+        
+    */
 
 	return (
 		<BrowserRouter>
 			<React.StrictMode>
-				<Header />
+				{loggedIn ? <Header /> : <PublicHeader />}
 				{loading && <Loading />}
 				{!loading && (
 					<Routes>
-						{!isEmpty(allArtworks) && (
+						{allArtworks.length && (
 							<>
 								<Route path="/" element={<Artworks artworks={allArtworks} />} />
 								<Route
@@ -97,9 +168,10 @@ function App() {
 						<Route path="*" element={<Navigate to="/" />} />
 					</Routes>
 				)}
-				{!loading && isEmpty(allArtworks) && (
+				{!loading && !allArtworks.length && (
 					<ErrorPage>
-						Sorry, our collection of artwork is unavailable at this time. We're on it!
+						Sorry, our collection of artwork is unavailable at this time. We're
+						on it!
 					</ErrorPage>
 				)}
 			</React.StrictMode>

@@ -13,7 +13,7 @@ let errorMessages = {
 	lastNameRequired: 'Last name is required.',
 };
 
-const ArtistForm = () => {
+const AddArtistForm = () => {
 	const [artist, setArtist] = useState(initialArtist);
 	const [hasErrors, setHasErrors] = useState(false);
 
@@ -82,4 +82,4 @@ const ArtistForm = () => {
 	);
 };
 
-export default ArtistForm;
+export default AddArtistForm;

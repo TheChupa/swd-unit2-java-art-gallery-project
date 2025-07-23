@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import TextInput from '../../common/TextInput';
 
-const CategoryForm = () => {
+const AddCategoryForm = () => {
 	const [category, setCategory] = useState('');
 	const [hasErrors, setHasErrors] = useState(false);
 
@@ -23,7 +23,7 @@ const CategoryForm = () => {
 	};
 
 	return (
-		<main>
+		<>
 			<h3>Add Category</h3>
 			<form>
 				<div className="form-item">
@@ -43,8 +43,8 @@ const CategoryForm = () => {
 					Add Category
 				</button>
 			</form>
-		</main>
+		</>
 	);
 };
 
-export default CategoryForm;
+export default AddCategoryForm;
