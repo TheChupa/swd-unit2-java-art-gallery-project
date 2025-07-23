@@ -106,6 +106,7 @@ const AddArtworkForm = ({ artists, categories }) => {
 		return (
 			<Checkbox
 				id={category.id}
+				key={category.id}
 				name="categoryIds"
 				label={category.title}
 				isChecked={checkboxes[category.id] || false}

@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 const ArtworksList = ({ artworks }) => {
 	let artworksJSX = artworks.map(artwork => {
 		return (
-			<tr>
+			<tr key={artwork.id}>
 				<td>{artwork.id}</td>
 				<td>
 					<Link to={'/artworks/details/' + artwork.id}>{artwork.title}</Link>

@@ -2,7 +2,7 @@ import { Link } from 'react-router';
 
 const CategoriesList = ({ categories }) => {
 	let categoriesJSX = categories.map(category => {
-		<tr>
+		<tr key={category.id}>
 			<td>{category.id}</td>
 			<td>{category.title}</td>
 			{category.artworks.length ? (

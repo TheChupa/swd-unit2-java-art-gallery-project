@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 const ArtistsList = ({ artists }) => {
 	let artistRowsJSX = artists.map(artist => {
 		return (
-			<tr>
+			<tr key={artist.id}>
 				<td>{artist.id}</td>
 				<td>{artist.firstName}</td>
 				<td>{artist.lastName}</td>
