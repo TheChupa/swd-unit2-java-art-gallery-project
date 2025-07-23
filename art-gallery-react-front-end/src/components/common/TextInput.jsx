@@ -1,18 +1,12 @@
-import { useState } from 'react';
+import InputErrorMessage from "./InputErrorMsg";
 
-const TextInput = ({ id, label, errorMsg }) => {
-	[inputValue, setInputValue] = useState('');
-
-	const handleInput = event => {
-		setInputValue(event.target.value);
-	};
+const TextInput = ({ id, label, value, handleChange }) => {
 
 	return (
-		<div>
+		<>
 			<label for={id}>{label}</label>
-			<input id={id} type="text" value={inputValue} onInput={handleInput} />
-			{errorMsg && <p className="error">{errorMsg}</p>}
-		</div>
+			<input id={id} type="text" value={value} onChange={handleChange} />
+		</>
 	);
 };
 

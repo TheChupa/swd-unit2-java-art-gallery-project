@@ -6,3 +6,5 @@ const Checkbox = ({ id, label, isChecked }) => {
 		</div>
 	);
 };
+
+export default Checkbox;
