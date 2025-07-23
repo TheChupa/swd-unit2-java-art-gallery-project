@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import InputErrorMessage from '../../common/InputErrorMsg';
+import TextInput from '../../common/TextInput';
 
 let initialArtist = {
 	firstName: '',
@@ -8,8 +9,8 @@ let initialArtist = {
 };
 
 let errorMessages = {
-	firstName: 'First name is required.',
-	lastName: 'Last name is required.',
+	firstNameRequired: 'First name is required.',
+	lastNameRequired: 'Last name is required.',
 };
 
 const ArtistForm = () => {
@@ -29,9 +30,8 @@ const ArtistForm = () => {
 			event.preventDefault();
 			setHasErrors(true);
 		} else {
+            // TODO: POST to /api/artists/add endpoint
 			console.log('Validation passed and form submitted.');
-			// POST to /api/artists/add endpoint
-			setHasErrors(false); // TODO: if component is removed this is probably not necessary
 		}
 	};
 
@@ -40,41 +40,35 @@ const ArtistForm = () => {
 			<h3>Add Artist</h3>
 			<form action="/artists" method="POST">
 				<div className="form-item">
-					<label for="firstName">First Name</label>
-					<input
-						type="text"
+					<TextInput
 						id="firstName"
-						name="firstName"
+						label="First Name"
 						value={artist.firstName}
-						onChange={handleChange}
+						handleChange={handleChange}
 					/>
 					<InputErrorMessage
 						hasError={hasErrors && artist.firstName === ''}
-						msg={errorMessages[firstName]}
+						msg={errorMessages[firstNameRequired]}
 					/>
 				</div>
 				<div className="form-item">
-					<label for="lastName">Last Name</label>
-					<input
-						type="text"
+\					<TextInput
 						id="lastName"
-						name="lastName"
+						label="Last Name"
 						value={artist.lastName}
-						onChange={handleChange}
+						handleChange={handleChange}
 					/>
 					<InputErrorMessage
 						hasError={hasErrors && artist.firstName === ''}
-						msg={errorMessages[lastName]}
+						msg={errorMessages[lastNameRequired]}
 					/>
 				</div>
 				<div className="form-item">
-					<label for="location">Location</label>
-					<input
-						type="text"
+					<TextInput
 						id="location"
-						name="location"
+						label="Location"
 						value={artist.location}
-						onChange={handleChange}
+						handleChange={handleChange}
 					/>
 				</div>
 				<button type="submit" onClick={handleSubmit}>

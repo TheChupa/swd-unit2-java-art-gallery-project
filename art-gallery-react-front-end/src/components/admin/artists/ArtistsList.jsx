@@ -8,7 +8,7 @@ const ArtistsList = ({ artists }) => {
 				<td>{artist.location}</td>
 				{artist.artworks.length ? (
 					<td>
-						{/* This is meant to be a filtered table so maybe query param */}
+						{/* TODO: This is meant to be a filtered table so maybe query param */}
 						<a href={'/artworks/' + artist.id}>
 							View <span>{artist.artworks.length}</span>
 						</a>
@@ -38,7 +38,7 @@ const ArtistsList = ({ artists }) => {
 					<tbody>{artistRowsJSX}</tbody>
 				</table>
 			) : (
-				<p th:unless="${artists} and ${artists.size()}">
+				<p>
 					<em>No artists to display.</em>
 				</p>
 			)}
