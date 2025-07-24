@@ -4,8 +4,9 @@ import {
 	InputErrorMessage,
 	Select,
 	TextInput,
-} from '../../common.js';
+} from '../../common/exports';
 import TextArea from '../../common/TextArea.jsx';
+import { useNavigate } from 'react-router';
 
 let initialArtwork = {
 	title: '',
@@ -41,17 +42,19 @@ const AddArtworkForm = ({ artists, categories }) => {
 	const [checkboxes, setCheckboxes] = useState([]);
 	const [hasErrors, setHasErrors] = useState(false);
 
-	const isValid = () => {
+	const navigate = useNavigate();
+
+	const isValid = newArtwork => {
 		return (
-			artwork.title &&
-			artwork.details.description &&
-			artwork.details.yearCreated &&
-			artwork.details.media &&
-			artwork.details.height &&
-			artwork.details.width &&
-			artwork.details.imageId &&
-			artwork.artistId &&
-			artwork.categoryIds.length
+			newArtwork.title &&
+			newArtwork.details.description &&
+			newArtwork.details.yearCreated &&
+			newArtwork.details.media &&
+			newArtwork.details.height &&
+			newArtwork.details.width &&
+			newArtwork.details.imageId &&
+			newArtwork.artistId &&
+			newArtwork.categoryIds.length
 		);
 	};
 
@@ -78,25 +81,39 @@ const AddArtworkForm = ({ artists, categories }) => {
 		// Will update categoryIds array within artwork object at submission
 	};
 
+	const saveNewArtwork = async artwork => {
+		try {
+			await fetch('http://localhost:8080/api/artworks/add', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					'Access-Control-Allow-Origin': '*',
+				},
+				body: JSON.stringify(artwork),
+			});
+		} catch (error) {
+			console.error(error.message);
+		}
+	};
+
 	const handleSubmit = event => {
 		event.preventDefault();
-		if (!isValid()) {
+		let newArtwork = { ...artwork };
+        newArtwork.details = { ...details }
+		checkboxes.forEach((checkbox, i) => {
+			if (checkbox) newArtwork.categoryIds.push(i);
+		});
+		if (!isValid(newArtwork)) {
 			setHasErrors(true);
 		} else {
-			let newArtwork = { ...artwork };
-			checkboxes.forEach((checkbox, i) => {
-				if (checkbox) newArtwork.categoryIds.push(i);
-			});
-			// TODO: POST to /api/artworks/add endpoint
-			console.log('Validation passed and form submitted.');
-            console.log(newArtwork);
-			// TODO: route to ArtistsLists
+			saveNewArtwork(newArtwork);
+			navigate('/admin/artworks');
 		}
 	};
 
 	let artistOptionsJSX = artists.map(artist => {
 		return (
-			<option id={artist.id} value={artist.id}>
+			<option key={artist.id} id={artist.id} value={artist.id}>
 				{artist.getFullName()}
 			</option>
 		);
@@ -116,7 +133,7 @@ const AddArtworkForm = ({ artists, categories }) => {
 	});
 
 	return (
-		<>
+		<main>
 			<h3>Add Artwork</h3>
 			<form>
 				<div className="container">
@@ -129,21 +146,21 @@ const AddArtworkForm = ({ artists, categories }) => {
 								handleChange={handleArtworkChange}
 							/>
 							<InputErrorMessage
-								hasError={hasErrors}
-								msg={errorMessages[titleRequired]}
+								hasError={hasErrors && artwork.title === ''}
+								msg={errorMessages['titleRequired']}
 							/>
 						</div>
 						<div className="form-item col-4">
 							<Select
-								id="artist"
+								id="artistId"
 								label="Artist"
 								handleChange={handleArtworkChange}>
 								<option value="">Select an artist</option>
 								{artistOptionsJSX}
 							</Select>
 							<InputErrorMessage
-								hasError={hasErrors}
-								msg={errorMessages[artistRequired]}
+								hasError={hasErrors && artwork.artistId === 0}
+								msg={errorMessages['artistRequired']}
 							/>
 						</div>
 					</div>
@@ -152,55 +169,55 @@ const AddArtworkForm = ({ artists, categories }) => {
 							<TextInput
 								id="yearCreated"
 								label="Year Created"
-								value={artwork.details.yearCreated}
+								value={details.yearCreated}
 								handleChange={handleDetailsChange}
 							/>
 							<InputErrorMessage
-								hasError={hasErrors && artwork.details.yearCreated === ''}
-								msg={errorMessages[yearCreatedRequired]}
+								hasError={hasErrors && details.yearCreated === ''}
+								msg={errorMessages['yearCreatedRequired']}
 							/>
 						</div>
 						<div className="form-item col-4">
 							<TextInput
 								id="media"
 								label="Media"
-								value={artwork.details.media}
+								value={details.media}
 								handleChange={handleDetailsChange}
 							/>
 							<InputErrorMessage
-								hasError={hasErrors && artwork.details.media === ''}
-								msg={errorMessages[mediaRequired]}
+								hasError={hasErrors && details.media === ''}
+								msg={errorMessages['mediaRequired']}
 							/>
 						</div>
 						<div className="form-item col-2">
 							<TextInput
 								id="height"
 								label="Height (in.)"
-								value={artwork.details.height}
+								value={details.height}
 								handleChange={handleDetailsChange}
 							/>
 							<InputErrorMessage
-								hasError={hasErrors && artwork.details.height === 0}
-								msg={errorMessages[heightRequired]}
+								hasError={hasErrors && details.height === 0}
+								msg={errorMessages['heightRequired']}
 							/>
 						</div>
 						<div className="form-item col-2">
 							<TextInput
 								id="width"
 								label="Width (in.)"
-								value={artwork.details.width}
+								value={details.width}
 								handleChange={handleDetailsChange}
 							/>
 							<InputErrorMessage
-								hasError={hasErrors && artwork.details.width === 0}
-								msg={errorMessages[widthRequired]}
+								hasError={hasErrors && details.width === 0}
+								msg={errorMessages['widthRequired']}
 							/>
 						</div>
 						<div className="form-item col-2">
 							<TextInput
 								id="depth"
 								label="Depth (in.)"
-								value={artwork.details.depth}
+								value={details.depth}
 								handleChange={handleDetailsChange}
 							/>
 						</div>
@@ -210,12 +227,12 @@ const AddArtworkForm = ({ artists, categories }) => {
 							<TextArea
 								id="description"
 								label="Description"
-								value={artwork.details.description}
+								value={details.description}
 								handleChange={handleDetailsChange}
 							/>
 							<InputErrorMessage
-								hasError={hasErrors && artwork.details.description === ''}
-								msg={errorMessages[descriptionRequired]}
+								hasError={hasErrors && details.description === ''}
+								msg={errorMessages['descriptionRequired']}
 							/>
 						</div>
 						<div className="col">
@@ -224,20 +241,20 @@ const AddArtworkForm = ({ artists, categories }) => {
 									<TextInput
 										id="imageId"
 										label="Image ID"
-										value={artwork.details.imageId}
+										value={details.imageId}
 										handleChange={handleDetailsChange}
 									/>
 									<InputErrorMessage
-										hasError={hasErrors && artwork.details.imageId === ''}
-										msg={errorMessages[imageIdRequired]}
+										hasError={hasErrors && details.imageId === ''}
+										msg={errorMessages['imageIdRequired']}
 									/>
 								</div>
 							</div>
 							<div className="row">
 								<h3>Categories</h3>
 								<InputErrorMessage
-									hasError={hasErrors && artwork.categoryIds.length === 0}
-									msg={errorMessages[categoryRequired]}
+									hasError={hasErrors && checkboxes.length === 0}
+									msg={errorMessages['categoryRequired']}
 								/>
 								<div className="form-item col">{categoryChoicesJSX}</div>
 							</div>
@@ -249,7 +266,7 @@ const AddArtworkForm = ({ artists, categories }) => {
 					Add Artwork
 				</button>
 			</form>
-		</>
+		</main>
 	);
 };
 

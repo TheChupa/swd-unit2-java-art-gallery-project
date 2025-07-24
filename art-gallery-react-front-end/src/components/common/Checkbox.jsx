@@ -4,13 +4,13 @@ const Checkbox = ({ id, name, label, isChecked, handleChange }) => {
 			<input
 				id={id}
 				name={name}
-                value={id}
+				value={id}
 				className="checkbox"
 				type="checkbox"
 				checked={isChecked}
-                onChange={handleChange}
+				onChange={handleChange}
 			/>
-			<label for={id}>{label}</label>
+			<label htmlFor={id}>{label}</label>
 		</div>
 	);
 };

@@ -1,11 +1,12 @@
+import { Link } from 'react-router';
 import Card from './Card';
 
 const Artworks = ({ artworks }) => {
 	let artworksJSX = Object.values(artworks).map(artwork => {
 		return (
-			<a href={'/artworks/' + artwork.id} key={artwork.id}>
+			<Link to={'/artworks/' + artwork.id} key={artwork.id}>
 				<Card artwork={artwork} />
-			</a>
+			</Link>
 		);
 	});
 

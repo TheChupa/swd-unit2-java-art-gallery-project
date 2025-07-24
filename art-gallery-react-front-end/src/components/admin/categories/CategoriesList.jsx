@@ -1,42 +1,35 @@
-import { Link } from 'react-router';
-
 const CategoriesList = ({ categories }) => {
 	let categoriesJSX = categories.map(category => {
-		<tr key={category.id}>
-			<td>{category.id}</td>
-			<td>{category.title}</td>
-			{category.artworks.length ? (
-				<td>
-					<Link to={'/artworks?categoryId=' + category.id}>
-						View {category.artworks.length}
-					</Link>
-				</td>
-			) : (
-				<td>None</td>
-			)}
-		</tr>;
+		return (
+			<tr key={category.id}>
+				<td>{category.id}</td>
+				<td>{category.title}</td>
+			</tr>
+		);
 	});
 
 	return (
-		<>
+		<main>
 			<h2>STYLES</h2>
 			{categories.length ? (
-				<table className="table table-striped">
-					<thead>
-						<tr>
-							<th>ID</th>
-							<th>Name</th>
-							<th>Artworks</th>
-						</tr>
-					</thead>
-					<tbody>{categoriesJSX}</tbody>
-				</table>
+                <>
+                    <table className="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Title</th>
+                            </tr>
+                        </thead>
+                        <tbody>{categoriesJSX}</tbody>
+                    </table>
+                    <p>Add a <Link to="/admin/categories/add" >new category</Link>.</p>
+                </>
 			) : (
 				<p>
 					<em>No categories to display.</em>
 				</p>
 			)}
-		</>
+		</main>
 	);
 };
 

@@ -33,7 +33,7 @@ const Login = () => {
 	};
 
 	return (
-		<>
+		<main>
 			<h1>Log In</h1>
 
 			<form>
@@ -78,7 +78,7 @@ const Login = () => {
 			<p className="mt-5">
 				Don't have an account? <Link to="/register">Register here.</Link>
 			</p>
-		</>
+		</main>
 	);
 };
 

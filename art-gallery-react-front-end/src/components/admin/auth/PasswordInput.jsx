@@ -10,7 +10,7 @@ const PasswordInput = ({ id, label, value, handleChange }) => {
 	// TODO: Get icons for show and hide
 	return (
 		<>
-			<label for={id}>{label}</label>
+			<label htmlFor={id}>{label}</label>
 			<input
 				id={id}
 				type={showInput ? 'text' : 'password'}

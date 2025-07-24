@@ -1,14 +1,13 @@
 import { Link } from 'react-router';
 
 const ArtworksList = ({ artworks }) => {
-	let artworksJSX = artworks.map(artwork => {
+	// Subcomponent for immediate use
+	const ArtworkRow = ({ artwork }) => {
 		return (
-			<tr key={artwork.id}>
+			<tr>
 				<td>{artwork.id}</td>
-				<td>
-					<Link to={'/artworks/details/' + artwork.id}>{artwork.title}</Link>
-				</td>
-				<td>{artwork.artist}</td>
+				<td>{artwork.title}</td>
+				<td>{artwork.artist.getFullName()}</td>
 				<td>{artwork.details.yearCreated}</td>
 				<td>
 					<Link to={'/artworks/details/' + artwork.id}>
@@ -17,39 +16,39 @@ const ArtworksList = ({ artworks }) => {
 				</td>
 			</tr>
 		);
+	};
+
+	let artworksJSX = artworks.map(artwork => {
+		return <ArtworkRow key={artwork.id} artwork={artwork} />;
 	});
+
 	return (
-		<>
-			<h2>
-				ARTWORKS
-				{/* <th:block th:if="${artist}">
-					{' '}
-					BY <span th:text="${artist}"></span>
-				</th:block>
-				<th:block th:if="${styleName}">
-					{' '}
-					- <span th:text="${styleName}"></span>
-				</th:block> */}
-			</h2>
+		<main>
+			<h2>ARTWORKS</h2>
 			{artworks.length ? (
-				<table className="table table-striped">
-					<thead>
-						<tr>
-							<th>ID</th>
-							<th>Title</th>
-							<th>Artist</th>
-							<th>Year Created</th>
-							<th>Image</th>
-						</tr>
-					</thead>
-					{artworksJSX}
-				</table>
+                <>
+                    <table className="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Title</th>
+                                <th>Artist</th>
+                                <th>Year Created</th>
+                                <th>Image</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {artworksJSX}
+                        </tbody>
+                    </table>
+                    <p>Add a <Link to="/admin/artworks/add" >new artwork</Link>.</p>
+                </>
 			) : (
 				<p>
 					<em>No artworks to display.</em>
 				</p>
 			)}
-		</>
+		</main>
 	);
 };
 

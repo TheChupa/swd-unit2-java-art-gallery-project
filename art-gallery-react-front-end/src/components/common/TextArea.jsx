@@ -1,7 +1,7 @@
 const TextArea = ({ id, label, value, handleChange }) => {
 	return (
 		<>
-			<label for={id}>{label}</label>
+			<label htmlFor={id}>{label}</label>
 			<textarea id={id} value={value} onChange={handleChange}></textarea>
 		</>
 	);

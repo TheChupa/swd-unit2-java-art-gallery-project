@@ -37,7 +37,7 @@ const Register = () => {
 	};
 
 	return (
-		<>
+		<main>
 			<h1>Register New User</h1>
 
 			<form>
@@ -58,9 +58,9 @@ const Register = () => {
 						</div>
 					</div>
 				</div>
-				<div class="container">
-					<div class="row">
-						<div class="form-item col-4">
+				<div className="container">
+					<div className="row">
+						<div className="form-item col-4">
 							<PasswordInput
 								id="password"
 								label="Password"
@@ -72,7 +72,7 @@ const Register = () => {
 								msg={errorMessages[passwordLength]}
 							/>
 						</div>
-						<div class="form-item col-4">
+						<div className="form-item col-4">
 							<PasswordInput
 								id="verifyPassword"
 								label="Verify Password"
@@ -92,7 +92,7 @@ const Register = () => {
 			<p className="mt-5">
 				Already have an account? <Link to="/login">Log in here.</Link>
 			</p>
-		</>
+		</main>
 	);
 };
 

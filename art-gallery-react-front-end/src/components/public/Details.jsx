@@ -1,4 +1,4 @@
-import { useParams } from 'react-router';
+import { Link, useParams } from 'react-router';
 
 const Details = ({ artworks }) => {
 	const { id } = useParams();
@@ -8,7 +8,7 @@ const Details = ({ artworks }) => {
 	return (
 		<main>
 			<p>
-				<a href="/artworks">&larr; Back to Artworks Gallery View</a>
+				&larr; Back to <Link to="/artworks">Artworks Gallery View</Link>
 			</p>
 			<h2>ARTWORK DETAILS</h2>
 			<div className="container">

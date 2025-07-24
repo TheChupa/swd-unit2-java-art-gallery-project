@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import InputErrorMessage from '../../common/InputErrorMsg';
 import TextInput from '../../common/TextInput';
+import { useNavigate } from 'react-router';
 
 let initialArtist = {
 	firstName: '',
@@ -17,6 +18,8 @@ const AddArtistForm = () => {
 	const [artist, setArtist] = useState(initialArtist);
 	const [hasErrors, setHasErrors] = useState(false);
 
+    const navigate = useNavigate();
+
 	const handleChange = event => {
 		let updatedArtist = {
 			...artist,
@@ -25,20 +28,33 @@ const AddArtistForm = () => {
 		setArtist(updatedArtist);
 	};
 
+    const saveNewArtist = async artist => {
+		try {
+			await fetch('http://localhost:8080/api/artists/add', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					'Access-Control-Allow-Origin': '*',
+				},
+				body: JSON.stringify(artist),
+			});
+		} catch (error) {
+			console.error(error.message);
+		}
+	};
+
 	const handleSubmit = event => {
 		event.preventDefault();
 		if (artist.firstName === '' || artist.lastName === '') {
 			setHasErrors(true);
 		} else {
-			// TODO: POST to /api/artists/add endpoint
-			console.log('Validation passed and form submitted.');
-            console.log(artist);
-			// TODO: route to ArtistsLists
+			saveNewArtist(artist);
+            navigate("/admin/artists");
 		}
 	};
 
 	return (
-		<>
+		<main>
 			<h3>Add Artist</h3>
 			<form>
 				<div className="form-item">
@@ -50,11 +66,10 @@ const AddArtistForm = () => {
 					/>
 					<InputErrorMessage
 						hasError={hasErrors && artist.firstName === ''}
-						msg={errorMessages[firstNameRequired]}
+						msg={errorMessages["firstNameRequired"]}
 					/>
 				</div>
 				<div className="form-item">
-					\{' '}
 					<TextInput
 						id="lastName"
 						label="Last Name"
@@ -63,7 +78,7 @@ const AddArtistForm = () => {
 					/>
 					<InputErrorMessage
 						hasError={hasErrors && artist.firstName === ''}
-						msg={errorMessages[lastNameRequired]}
+						msg={errorMessages["lastNameRequired"]}
 					/>
 				</div>
 				<div className="form-item">
@@ -78,7 +93,7 @@ const AddArtistForm = () => {
 					Add Artist
 				</button>
 			</form>
-		</>
+		</main>
 	);
 };
 

@@ -66,14 +66,15 @@ a:active {
 	color: #b95a0a;
 }
 
-a.navlink:link,
-a.navlink:visited {
+.navlink:link,
+.navlink:visited {
 	color: white;
 	font-weight: 400;
 }
-a.navlink:hover,
-a.navlink:active {
+.navlink:hover,
+.navlink:active {
 	text-decoration: underline;
+    cursor: pointer;
 }
 
 #mag {
