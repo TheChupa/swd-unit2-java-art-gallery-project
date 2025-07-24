@@ -36,7 +36,7 @@ let errorMessages = {
 	categoryRequired: 'At least one category must be selected.',
 };
 
-const AddArtworkForm = ({ artists, categories }) => {
+const AddArtworkForm = ({ artists, categories, refetch }) => {
 	const [artwork, setArtwork] = useState(initialArtwork);
 	const [details, setDetails] = useState(initialDetails);
 	const [checkboxes, setCheckboxes] = useState([]);
@@ -91,15 +91,18 @@ const AddArtworkForm = ({ artists, categories }) => {
 				},
 				body: JSON.stringify(artwork),
 			});
+			// TODO: Capture response and improve error handling
 		} catch (error) {
 			console.error(error.message);
 		}
+		refetch();
+		navigate('/admin/artworks');
 	};
 
 	const handleSubmit = event => {
 		event.preventDefault();
 		let newArtwork = { ...artwork };
-        newArtwork.details = { ...details }
+		newArtwork.details = { ...details };
 		checkboxes.forEach((checkbox, i) => {
 			if (checkbox) newArtwork.categoryIds.push(i);
 		});
@@ -107,7 +110,6 @@ const AddArtworkForm = ({ artists, categories }) => {
 			setHasErrors(true);
 		} else {
 			saveNewArtwork(newArtwork);
-			navigate('/admin/artworks');
 		}
 	};
 

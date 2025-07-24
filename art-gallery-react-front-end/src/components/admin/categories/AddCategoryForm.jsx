@@ -2,17 +2,17 @@ import { useState } from 'react';
 import { TextInput, InputErrorMessage } from '../../common/exports';
 import { useNavigate } from 'react-router';
 
-const AddCategoryForm = () => {
+const AddCategoryForm = ({ refetch }) => {
 	const [category, setCategory] = useState('');
 	const [hasErrors, setHasErrors] = useState(false);
 
-    const navigate = useNavigate();
+	const navigate = useNavigate();
 
 	const handleChange = event => {
 		setCategory(event.target.value);
 	};
 
-    const saveNewCategory = async category => {
+	const saveNewCategory = async category => {
 		try {
 			await fetch('http://localhost:8080/api/categories/add', {
 				method: 'POST',
@@ -22,19 +22,21 @@ const AddCategoryForm = () => {
 				},
 				body: JSON.stringify(category),
 			});
+			// TODO: Capture response and improve error handling
 		} catch (error) {
 			console.error(error.message);
 		}
+		refetch();
+		navigate('/admin/categories');
 	};
 
 	const handleSubmit = event => {
+        event.preventDefault();
 		if (category === '') {
-			event.preventDefault();
 			setHasErrors(true);
 		} else {
 			let newCategory = { title: category };
 			saveNewCategory(newCategory);
-			navigate("/admin/categories");
 		}
 	};
 

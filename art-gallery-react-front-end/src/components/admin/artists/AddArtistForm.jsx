@@ -14,11 +14,11 @@ let errorMessages = {
 	lastNameRequired: 'Last name is required.',
 };
 
-const AddArtistForm = () => {
+const AddArtistForm = ({ refetch }) => {
 	const [artist, setArtist] = useState(initialArtist);
 	const [hasErrors, setHasErrors] = useState(false);
 
-    const navigate = useNavigate();
+	const navigate = useNavigate();
 
 	const handleChange = event => {
 		let updatedArtist = {
@@ -28,7 +28,7 @@ const AddArtistForm = () => {
 		setArtist(updatedArtist);
 	};
 
-    const saveNewArtist = async artist => {
+	const saveNewArtist = async artist => {
 		try {
 			await fetch('http://localhost:8080/api/artists/add', {
 				method: 'POST',
@@ -38,9 +38,12 @@ const AddArtistForm = () => {
 				},
 				body: JSON.stringify(artist),
 			});
+			// TODO: Capture response and improve error handling
 		} catch (error) {
 			console.error(error.message);
 		}
+		refetch();
+		navigate('/admin/artists');
 	};
 
 	const handleSubmit = event => {
@@ -49,7 +52,6 @@ const AddArtistForm = () => {
 			setHasErrors(true);
 		} else {
 			saveNewArtist(artist);
-            navigate("/admin/artists");
 		}
 	};
 
@@ -66,7 +68,7 @@ const AddArtistForm = () => {
 					/>
 					<InputErrorMessage
 						hasError={hasErrors && artist.firstName === ''}
-						msg={errorMessages["firstNameRequired"]}
+						msg={errorMessages['firstNameRequired']}
 					/>
 				</div>
 				<div className="form-item">
@@ -78,7 +80,7 @@ const AddArtistForm = () => {
 					/>
 					<InputErrorMessage
 						hasError={hasErrors && artist.firstName === ''}
-						msg={errorMessages["lastNameRequired"]}
+						msg={errorMessages['lastNameRequired']}
 					/>
 				</div>
 				<div className="form-item">
