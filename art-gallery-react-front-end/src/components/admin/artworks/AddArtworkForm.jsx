@@ -81,7 +81,7 @@ const AddArtworkForm = ({ artists, categories, refetch }) => {
 		// Will update categoryIds array within artwork object at submission
 	};
 
-	const saveNewArtwork = async artwork => {
+	const saveNewArtwork = async newArtwork => {
 		try {
 			await fetch('http://localhost:8080/api/artworks/add', {
 				method: 'POST',
@@ -89,7 +89,7 @@ const AddArtworkForm = ({ artists, categories, refetch }) => {
 					'Content-Type': 'application/json',
 					'Access-Control-Allow-Origin': '*',
 				},
-				body: JSON.stringify(artwork),
+				body: JSON.stringify(newArtwork),
 			});
 			// TODO: Capture response and improve error handling
 		} catch (error) {

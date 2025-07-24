@@ -12,7 +12,7 @@ const AddCategoryForm = ({ refetch }) => {
 		setCategory(event.target.value);
 	};
 
-	const saveNewCategory = async category => {
+	const saveNewCategory = async newCategory => {
 		try {
 			await fetch('http://localhost:8080/api/categories/add', {
 				method: 'POST',
@@ -20,7 +20,7 @@ const AddCategoryForm = ({ refetch }) => {
 					'Content-Type': 'application/json',
 					'Access-Control-Allow-Origin': '*',
 				},
-				body: JSON.stringify(category),
+				body: JSON.stringify(newCategory),
 			});
 			// TODO: Capture response and improve error handling
 		} catch (error) {

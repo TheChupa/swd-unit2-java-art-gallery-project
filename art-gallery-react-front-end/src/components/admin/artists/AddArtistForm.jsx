@@ -28,7 +28,7 @@ const AddArtistForm = ({ refetch }) => {
 		setArtist(updatedArtist);
 	};
 
-	const saveNewArtist = async artist => {
+	const saveNewArtist = async newArtist => {
 		try {
 			await fetch('http://localhost:8080/api/artists/add', {
 				method: 'POST',
@@ -36,7 +36,7 @@ const AddArtistForm = ({ refetch }) => {
 					'Content-Type': 'application/json',
 					'Access-Control-Allow-Origin': '*',
 				},
-				body: JSON.stringify(artist),
+				body: JSON.stringify(newArtist),
 			});
 			// TODO: Capture response and improve error handling
 		} catch (error) {
