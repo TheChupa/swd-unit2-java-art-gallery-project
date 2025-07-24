@@ -1,3 +1,5 @@
+import { Link } from "react-router";
+
 const CategoriesList = ({ categories }) => {
 	let categoriesJSX = categories.map(category => {
 		return (

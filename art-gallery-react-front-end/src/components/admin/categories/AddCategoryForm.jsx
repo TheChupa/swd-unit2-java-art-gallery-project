@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import TextInput from '../../common/TextInput';
+import { TextInput, InputErrorMessage } from '../../common/exports';
 import { useNavigate } from 'react-router';
 
 const AddCategoryForm = () => {

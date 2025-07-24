@@ -38,44 +38,41 @@ function App() {
 		try {
 			response = await fetch('http://localhost:8080/api/artworks');
 			data = await response.json();
-		} catch (e) {
+		} catch (error) {
+            console.error(error.message);
 			setLoading(false);
 		}
 
-		try {
-			data.forEach(artwork => {
-				let artist = new Artist(
-					artwork.artist.id,
-					artwork.artist.firstName,
-					artwork.artist.lastName,
-					artwork.artist.location
-				);
-				let categories = [];
-				artwork.categories.forEach(category => {
-					categories.push(new Category(category.id, category.title));
-				});
-				let details = new ArtworkDetails(
-					artwork.details.id,
-					artwork.details.media,
-					artwork.details.yearCreated,
-					artwork.details.description,
-					artwork.details.width,
-					artwork.details.height,
-					artwork.details.depth,
-					artwork.details.imageId
-				);
-				let newArtwork = new Artwork(
-					artwork.id,
-					artwork.title,
-					details,
-					artist,
-					categories
-				);
-				artworks.push(newArtwork);
-			});
-		} catch (e) {
-			console.log('Unable to create Artwork objects.');
-		}
+        data.forEach(artwork => {
+            let artist = new Artist(
+                artwork.artist.id,
+                artwork.artist.firstName,
+                artwork.artist.lastName,
+                artwork.artist.location
+            );
+            let categories = [];
+            artwork.categories.forEach(category => {
+                categories.push(new Category(category.id, category.title));
+            });
+            let details = new ArtworkDetails(
+                artwork.details.id,
+                artwork.details.media,
+                artwork.details.yearCreated,
+                artwork.details.description,
+                artwork.details.width,
+                artwork.details.height,
+                artwork.details.depth,
+                artwork.details.imageId
+            );
+            let newArtwork = new Artwork(
+                artwork.id,
+                artwork.title,
+                details,
+                artist,
+                categories
+            );
+            artworks.push(newArtwork);
+        });
 
 		setAllArtworks(artworks);
 	};
@@ -89,23 +86,20 @@ function App() {
 		try {
 			response = await fetch('http://localhost:8080/api/artists');
 			data = await response.json();
-		} catch (e) {
+		} catch (error) {
+            console.error(error.message);
 			setLoading(false);
 		}
 
-		try {
-			data.forEach(artist => {
-				let newArtist = new Artist(
-					artist.id,
-					artist.firstName,
-					artist.lastName,
-					artist.location
-				);
-				artists.push(newArtist);
-			});
-		} catch (e) {
-			console.log('Unable to create Artist objects.');
-		}
+        data.forEach(artist => {
+            let newArtist = new Artist(
+                artist.id,
+                artist.firstName,
+                artist.lastName,
+                artist.location
+            );
+            artists.push(newArtist);
+        }); 
 
 		setAllArtists(artists);
 	};
@@ -119,18 +113,15 @@ function App() {
 		try {
 			response = await fetch('http://localhost:8080/api/categories');
 			data = await response.json();
-		} catch (e) {
+		} catch (error) {
+            console.error(error.message);
 			setLoading(false);
 		}
 
-		try {
-			data.forEach(category => {
-				let newCategory = new Category(category.id, category.title);
-				categories.push(newCategory);
-			});
-		} catch (e) {
-			console.log('Unable to create Artist objects.');
-		}
+        data.forEach(category => {
+            let newCategory = new Category(category.id, category.title);
+            categories.push(newCategory);
+        });
 
 		setAllCategories(categories);
 	};
