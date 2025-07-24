@@ -2,14 +2,24 @@ import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router';
 import {
 	Artworks,
-	ErrorPage,
 	Details,
-	Header,
+	ErrorPage,
 	Loading,
+	PublicHeader,
+	PublicHome,
 } from './components/public/exports';
+import {
+    AdminHeader,
+    AdminHome,
+	AddArtistForm,
+	ArtistsList,
+	AddArtworkForm,
+	ArtworksList,
+	AddCategoryForm,
+	CategoriesList,
+} from './components/admin/exports';
 import { Artist, Artwork, ArtworkDetails, Category } from './classes/exports';
 import './App.css';
-import PublicHeader from './components/public/PublicHeader';
 
 function App() {
 	const [loading, setLoading] = useState(true);
@@ -107,7 +117,7 @@ function App() {
 		let data;
 
 		try {
-			response = await fetch('http://localhost:8080/api/artists');
+			response = await fetch('http://localhost:8080/api/categories');
 			data = await response.json();
 		} catch (e) {
 			setLoading(false);
@@ -115,7 +125,7 @@ function App() {
 
 		try {
 			data.forEach(category => {
-				let newCategory = new Artist(category.id, category.title);
+				let newCategory = new Category(category.id, category.title);
 				categories.push(newCategory);
 			});
 		} catch (e) {
@@ -141,32 +151,38 @@ function App() {
 		}
 	}, [allArtworks, allArtists, allCategories]);
 
-    /*
-        
-    */
-
 	return (
 		<BrowserRouter>
 			<React.StrictMode>
-				{loggedIn ? <Header /> : <PublicHeader />}
+				{loggedIn ? <AdminHeader setLoggedIn={setLoggedIn} /> : <PublicHeader setLoggedIn={setLoggedIn} />}
 				{loading && <Loading />}
 				{!loading && (
-					<Routes>
-						{allArtworks.length && (
-							<>
-								<Route path="/" element={<Artworks artworks={allArtworks} />} />
-								<Route
-									path="/artworks"
-									element={<Artworks artworks={allArtworks} />}
-								/>
-								<Route
-									path="artworks/:id"
-									element={<Details artworks={allArtworks} />}
-								/>
-							</>
-						)}
-						<Route path="*" element={<Navigate to="/" />} />
-					</Routes>
+                    loggedIn ? (
+                        <Routes>
+                            <Route path="/" element={<Navigate to="/admin" />} />
+                            <Route path="/admin" element={<AdminHome />} />
+                            <Route path="/admin/artists" element={<ArtistsList artists={allArtists} />} />
+                            <Route path="/admin/artists/add" element={<AddArtistForm />} />
+                            <Route path="/admin/artworks" element={<ArtworksList artworks={allArtworks} />} />
+                            <Route path="/admin/artworks/add" element={<AddArtworkForm artists={allArtists} categories={allCategories} />} />
+                            <Route path="/admin/categories" element={<CategoriesList categories={allCategories} />} />
+                            <Route path="/admin/categories/add" element={<AddCategoryForm />} />
+                            <Route path="*" element={<Navigate to="/admin" />} />
+                        </Routes>
+                    ) : (
+                        <Routes>
+                            <Route path="/" element={<PublicHome />} />
+                            <Route
+                                path="/artworks"
+                                element={<Artworks artworks={allArtworks} />}
+                            />
+                            <Route
+                                path="artworks/:id"
+                                element={<Details artworks={allArtworks} />}
+                            />
+                            <Route path="*" element={<Navigate to="/" />} />
+                        </Routes>
+                    )
 				)}
 				{!loading && !allArtworks.length && (
 					<ErrorPage>
